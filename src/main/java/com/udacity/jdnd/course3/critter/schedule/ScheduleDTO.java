@@ -3,11 +3,9 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
-import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,18 +66,18 @@ public class ScheduleDTO {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
         if(schedule.getPets() != null) {
+            List<Long> petIds = new ArrayList<>();
             for (int i = 0; i < schedule.getPets().size(); i++) {
-                List<Long> petIds = new ArrayList<>();
                 petIds.add(schedule.getPets().get(i).getId());
-                scheduleDTO.setPetIds(petIds);
             }
+            scheduleDTO.setPetIds(petIds);
         }
         if(schedule.getEmployees() != null) {
+            List<Long> employeeIds = new ArrayList<>();
             for (int i = 0; i < schedule.getEmployees().size(); i++) {
-                List<Long> employeeIds = new ArrayList<>();
-                employeeIds.add(schedule.getEmployees().get(i).getEmployeeId());
-                scheduleDTO.setEmployeeIds(employeeIds);
+                employeeIds.add(schedule.getEmployees().get(i).getId());
             }
+            scheduleDTO.setEmployeeIds(employeeIds);
         }
         return scheduleDTO;
     }
@@ -89,10 +87,17 @@ public class ScheduleDTO {
             ScheduleDTO scheduleDTO= new ScheduleDTO();
             BeanUtils.copyProperties(schedules.get(i), scheduleDTO);
             List<Long> petIds = new ArrayList<>();
-            petIds.add(schedules.get(i).getPets().get(i).getId());
+
+            for (int j = 0; j < schedules.get(i).getPets().size(); j++) {
+                petIds.add(schedules.get(i).getPets().get(j).getId());
+            }
             scheduleDTO.setPetIds(petIds);
+
             List<Long> employeeIds = new ArrayList<>();
-            employeeIds.add(schedules.get(i).getEmployees().get(i).getEmployeeId());
+
+            for (int k = 0; k < schedules.get(i).getEmployees().size(); k++) {
+                employeeIds.add(schedules.get(i).getEmployees().get(k).getId());
+            }
             scheduleDTO.setEmployeeIds(employeeIds);
             scheduleDTOList.add(scheduleDTO);
         }
@@ -114,7 +119,7 @@ public class ScheduleDTO {
             List<Employee> employees = new ArrayList<>(scheduleDTO.getEmployeeIds().size());
             for (int i = 0; i < scheduleDTO.getEmployeeIds().size(); i++) {
                 Employee emp = new Employee();
-                emp.setEmployeeId(scheduleDTO.getEmployeeIds().get(i));
+                emp.setId(scheduleDTO.getEmployeeIds().get(i));
                 employees.add(emp);
             }
             schedule.setEmployees(employees);

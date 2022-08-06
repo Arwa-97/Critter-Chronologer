@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
@@ -14,9 +13,9 @@ public class Schedule {
     @Column(name = "schedule_id", nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schedule")
+    @ManyToMany(targetEntity = Employee.class)
     private List<Employee> employees;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schedule")
+    @ManyToMany(targetEntity = Pet.class)
     private List<Pet> pets;
 
     @ElementCollection

@@ -13,17 +13,17 @@ import java.util.Set;
  * to the database directly.
  */
 public class EmployeeDTO {
-    private long employeeId;
+    private long id;
     private String name;
     private Set<EmployeeSkill> skills;
     private Set<DayOfWeek> daysAvailable;
 
-    public long getEmployeeId() {
-        return employeeId;
+    public long getId() {
+        return id;
     }
 
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -56,10 +56,10 @@ public class CritterFunctionalTest {
     public void testCreateEmployee(){
         EmployeeDTO employeeDTO = createEmployeeDTO();
         EmployeeDTO newEmployee = userController.saveEmployee(employeeDTO);
-        EmployeeDTO retrievedEmployee = userController.getEmployee(newEmployee.getEmployeeId());
+        EmployeeDTO retrievedEmployee = userController.getEmployee(newEmployee.getId());
         Assertions.assertEquals(employeeDTO.getSkills(), newEmployee.getSkills());
-        Assertions.assertEquals(newEmployee.getEmployeeId(), retrievedEmployee.getEmployeeId());
-        Assertions.assertTrue(retrievedEmployee.getEmployeeId() > 0);
+        Assertions.assertEquals(newEmployee.getId(), retrievedEmployee.getId());
+        Assertions.assertTrue(retrievedEmployee.getId() > 0);
     }
 
     @Test
@@ -126,9 +126,9 @@ public class CritterFunctionalTest {
         Assertions.assertNull(emp1.getDaysAvailable());
 
         Set<DayOfWeek> availability = Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY);
-        userController.setAvailability(availability, emp1.getEmployeeId());
+        userController.setAvailability(availability, emp1.getId());
 
-        EmployeeDTO emp2 = userController.getEmployee(emp1.getEmployeeId());
+        EmployeeDTO emp2 = userController.getEmployee(emp1.getId());
         Assertions.assertEquals(availability, emp2.getDaysAvailable());
     }
 
@@ -155,8 +155,8 @@ public class CritterFunctionalTest {
         er1.setDate(LocalDate.of(2019, 12, 25)); //wednesday
         er1.setSkills(Sets.newHashSet(EmployeeSkill.PETTING));
 
-        Set<Long> eIds1 = userController.findEmployeesForService(er1).stream().map(EmployeeDTO::getEmployeeId).collect(Collectors.toSet());
-        Set<Long> eIds1expected = Sets.newHashSet(emp1n.getEmployeeId(), emp2n.getEmployeeId());
+        Set<Long> eIds1 = userController.findEmployeesForService(er1).stream().map(EmployeeDTO::getId).collect(Collectors.toSet());
+        Set<Long> eIds1expected = Sets.newHashSet(emp1n.getId(), emp2n.getId());
         Assertions.assertEquals(eIds1, eIds1expected);
 
         //make a request that matches only employee 3
@@ -164,8 +164,8 @@ public class CritterFunctionalTest {
         er2.setDate(LocalDate.of(2019, 12, 27)); //friday
         er2.setSkills(Sets.newHashSet(EmployeeSkill.WALKING, EmployeeSkill.SHAVING));
 
-        Set<Long> eIds2 = userController.findEmployeesForService(er2).stream().map(EmployeeDTO::getEmployeeId).collect(Collectors.toSet());
-        Set<Long> eIds2expected = Sets.newHashSet(emp3n.getEmployeeId());
+        Set<Long> eIds2 = userController.findEmployeesForService(er2).stream().map(EmployeeDTO::getId).collect(Collectors.toSet());
+        Set<Long> eIds2expected = Sets.newHashSet(emp3n.getId());
         Assertions.assertEquals(eIds2, eIds2expected);
     }
 
@@ -181,7 +181,7 @@ public class CritterFunctionalTest {
 
         LocalDate date = LocalDate.of(2019, 12, 25);
         List<Long> petList = Lists.newArrayList(petDTO.getId());
-        List<Long> employeeList = Lists.newArrayList(employeeDTO.getEmployeeId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
         Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
 
         scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
@@ -283,7 +283,7 @@ public class CritterFunctionalTest {
                 .map(e -> {
                     e.setSkills(activities);
                     e.setDaysAvailable(Sets.newHashSet(date.getDayOfWeek()));
-                    return userController.saveEmployee(e).getEmployeeId();
+                    return userController.saveEmployee(e).getId();
                 }).collect(Collectors.toList());
         CustomerDTO cust = userController.saveCustomer(createCustomerDTO());
         List<Long> petIds = IntStream.range(0, numPets)

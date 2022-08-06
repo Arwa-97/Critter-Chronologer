@@ -1,12 +1,10 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Pet {
@@ -28,25 +26,8 @@ public class Pet {
     @Column(nullable = true)
     private LocalDate birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer owner;
-
-    @JsonBackReference
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
-    private List<Schedule> schedule;
-
-    public Pet() {
-    }
-
-    public List<Schedule> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(List<Schedule> schedule) {
-        this.schedule = schedule;
-    }
+    @ManyToOne(targetEntity = Customer.class, optional = false)
+    private Customer customer;
 
     public PetType getType() {
         return type;
@@ -80,12 +61,12 @@ public class Pet {
         this.birthDate = birthDate;
     }
 
-    public Customer getOwner() {
-        return owner;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setOwner(Customer owner) {
-        this.owner = owner;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Long getId() {

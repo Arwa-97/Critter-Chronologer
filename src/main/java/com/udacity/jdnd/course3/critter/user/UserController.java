@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Customer customer = CustomerDTO.convertCustomerDTOToCustomer(customerDTO);
-        CustomerDTO response = CustomerDTO.convertCustomerToCustomerDTO(customerService.save(customer));
+        CustomerDTO response = CustomerDTO.convertCustomerToCustomerDTO(customerService.save(customer, customerDTO.getPetIds()));
         return response;
     }
 
@@ -53,7 +53,7 @@ public class UserController {
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        return EmployeeDTO.convertEmployeeToEmployeeDTO(employeeService.findById(employeeId).get());
+        return EmployeeDTO.convertEmployeeToEmployeeDTO(employeeService.findById(employeeId));
     }
 
     @PutMapping("/employee/{employeeId}")

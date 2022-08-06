@@ -78,7 +78,9 @@ public class CustomerDTO {
             BeanUtils.copyProperties(customers.get(i), customerDTO);
             if(customers.get(i).getPets() != null) {
                 List<Long> petIds = new ArrayList<>();
-                petIds.add(customers.get(i).getPets().get(i).getId());
+                for (int j = 0; j < customers.get(i).getPets().size(); j++){
+                    petIds.add(customers.get(i).getPets().get(j).getId());
+                }
                 customerDTO.setPetIds(petIds);
             }
             customerDTOList.add(customerDTO);

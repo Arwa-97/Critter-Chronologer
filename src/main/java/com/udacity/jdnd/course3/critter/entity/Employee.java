@@ -1,12 +1,10 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,7 +12,7 @@ public class Employee {
     @Id
     @Column(name = "employee_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
+    private Long id;
 
     @Column(nullable = false)
     @Nationalized
@@ -29,20 +27,8 @@ public class Employee {
     @CollectionTable(name="daysAvailable", joinColumns=@JoinColumn(name="employee_id"))
     private Set<DayOfWeek> daysAvailable;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
     public Employee(){
 
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
     }
 
     public Set<DayOfWeek> getDaysAvailable() {
@@ -69,11 +55,11 @@ public class Employee {
         this.name = name;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

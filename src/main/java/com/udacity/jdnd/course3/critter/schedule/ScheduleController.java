@@ -25,7 +25,9 @@ public class ScheduleController {
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
         Schedule request = ScheduleDTO.convertScheduleDTOToSchedule(scheduleDTO);
-        return ScheduleDTO.convertScheduleToScheduleDTO(this.scheduleService.save(request));
+        return ScheduleDTO.convertScheduleToScheduleDTO(
+                this.scheduleService.save(request,
+                        scheduleDTO.getEmployeeIds(), scheduleDTO.getPetIds()));
     }
 
     @GetMapping

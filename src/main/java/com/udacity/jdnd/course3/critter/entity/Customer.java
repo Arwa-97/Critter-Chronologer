@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
@@ -19,12 +18,8 @@ public class Customer {
 
     @Column(nullable = false)
     private String phoneNumber;
-    @JsonBackReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Pet.class)
     private List<Pet> pets;
-
-    public Customer() {
-    }
 
     public List<Pet> getPets() {
         return pets;
@@ -32,6 +27,9 @@ public class Customer {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+    public void addPets(Pet pet){
+        pets.add(pet);
     }
 
     public String getName() {

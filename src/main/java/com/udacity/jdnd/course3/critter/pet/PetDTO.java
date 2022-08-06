@@ -72,7 +72,7 @@ public class PetDTO {
     public static PetDTO convertPetToPetDTO(Pet pet){
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-        petDTO.setOwnerId(pet.getOwner().getId());
+        petDTO.setOwnerId(pet.getCustomer().getId());
         return petDTO;
     }
     public static List<PetDTO> convertPetToPetDTO(List<Pet> pets){
@@ -80,7 +80,7 @@ public class PetDTO {
         for (int i = 0; i < pets.size(); i++) {
             PetDTO petDTO= new PetDTO();
             BeanUtils.copyProperties(pets.get(i), petDTO);
-            petDTO.setOwnerId(pets.get(i).getOwner().getId());
+            petDTO.setOwnerId(pets.get(i).getCustomer().getId());
             petDTOList.add(petDTO);
         }
         return petDTOList;
